@@ -1,0 +1,79 @@
+﻿@model iSpindelMvc.Models.Log
+
+@{
+    ViewData["Title"] = "Delete";
+    var p = new Dictionary<string, string> { { "batchId", Model.BatchId.ToString() } };
+}
+
+<h2>Delete Log</h2>
+<h3 class="text-danger">Are you sure you want to delete this?  Cannot be undone</h3>
+<hr />
+<form asp-action="Delete">
+    <div class="form-row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="LogId" class="col-form-label"></label>
+            <input asp-for="LogId" class="form-control" readonly="readonly" />
+            <span asp-validation-for="LogId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="Date" class="col-form-label"></label>
+            <input asp-for="Date" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="Angle" class="col-form-label"></label>
+            <input asp-for="Angle" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Angle" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="Temperature" class="col-form-label"></label>
+            <input asp-for="Temperature" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Temperature" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="TempUnits" class="col-form-label"></label>
+            <input asp-for="TempUnits" class="form-control" readonly="readonly" />
+            <span asp-validation-for="TempUnits" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="Battery" class="col-form-label"></label>
+            <input asp-for="Battery" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Battery" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="Gravity" class="col-form-label"></label>
+            <input asp-for="Gravity" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Gravity" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="Interval" class="col-form-label"></label>
+            <input asp-for="Interval" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Interval" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="RSSI" class="col-form-label"></label>
+            <input asp-for="RSSI" class="form-control" readonly="readonly" />
+            <span asp-validation-for="RSSI" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="DeviceId" class="col-form-label"></label>
+            <input asp-for="DeviceId" class="form-control" readonly="readonly" />
+            <span asp-validation-for="DeviceId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="BatchId" class="col-form-label"></label>
+            <input asp-for="BatchId" class="form-control" readonly="readonly" />
+            <span asp-validation-for="BatchId" class="text-danger"></span>
+        </div>
+        <div class="w-100"></div>
+        <div class="form-group">
+            <input type="submit" value="Delete Log" class="btn btn-danger" />
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" asp-controller="Batch" asp-all-route-data="p">Back to List</a>
+</div>
+
