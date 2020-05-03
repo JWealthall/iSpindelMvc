@@ -1,0 +1,50 @@
+﻿@model DeviceSummary
+
+@{
+    var p = new Dictionary<string, string> { { "deviceId", Model.DeviceId.ToString() } };
+    var dlClass = Model.Date.HasValue && Model.Date.Value < DateTime.Now.AddHours(-2)? "text-secondary" : "" ;
+}
+
+<div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-1 d-flex">
+    <div class="card flex-fill">
+        <div class="card-header">
+            <h5>@Model.Name</h5>
+            <h6>@Model.Description</h6>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-4">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.Name)</dd>
+                <dt class="col-4">@Html.DisplayNameFor(model => model.SpindelId)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.SpindelId)</dd>
+            </dl>
+            @if (Model.Date.HasValue)
+            {
+                @*<hr />*@
+                <dl class="row @(dlClass)">
+                    <dt class="col-4">@Html.DisplayNameFor(model => model.Date)</dt>
+                    <dd class="col-8">@Html.DisplayFor(model => model.Date)</dd>
+                    <dt class="col-4">@Html.DisplayNameFor(model => model.Gravity)</dt>
+                    <dd class="col-8">@Html.DisplayFor(model => model.Gravity)</dd>
+                    <dt class="col-4">@Html.DisplayNameFor(model => model.Temperature)</dt>
+                    <dd class="col-8">@Html.DisplayFor(model => model.Temperature)&deg;@Html.DisplayFor(model => model.TempUnits)</dd>
+                    <dt class="col-4">@Html.DisplayNameFor(model => model.Battery)</dt>
+                    <dd class="col-8">@Html.DisplayFor(model => model.Battery)</dd>
+                    <dt class="col-4">@Html.DisplayNameFor(model => model.RSSI)</dt>
+                    <dd class="col-8">@Html.DisplayFor(model => model.RSSI)</dd>
+                </dl>
+            }
+        </div>
+        <div class="card-footer text-right">
+            @if (Model.IsDetail)
+            {
+                <a class="btn btn-primary" asp-controller="Device" asp-action="Edit" asp-all-route-data="p">Edit Device</a>
+                <a class="btn btn-primary" asp-controller="Batch" asp-action="New" asp-all-route-data="p">New Batch</a>
+            }
+            else
+            {
+                <a class="btn btn-primary" asp-controller="Device" asp-all-route-data="p">Batches</a>
+            }
+        </div>
+    </div>
+</div>

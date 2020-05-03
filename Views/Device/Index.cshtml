@@ -1,0 +1,72 @@
+﻿@model SummaryDataModel
+
+@{
+    ViewData["Title"] = Model.DeviceId.HasValue ? "Device Summary" : "Devices";
+}
+
+@if (Model.DeviceId.HasValue)
+{
+    // This is a device details
+    <div class="text-center">
+        <h1 class="display-5">@Model.DeviceName Summary</h1>
+    </div>
+
+    @if (Model.Devices != null && Model.Devices.Count > 0)
+    {
+        Model.Devices[0].IsDetail = true;
+        <div class="row justify-content-center mt-2">
+            <partial name="DeviceSummary" model="Model.Devices[0]" />
+        </div>
+
+        <div class="row justify-content-center">
+            <h4 class="">Batches</h4>
+        </div>
+        @if (Model.Batches != null && Model.Batches.Count > 0)
+        {
+            <div class="row justify-content-center mt-2">
+                @foreach (var b in Model.Batches)
+                {
+                    <partial name="BatchSummary" model="b" />
+                }
+            </div>
+        }
+        else
+        {
+            <div class="row justify-content-center mt-2">
+                <div class="text-warning">No batches</div>
+            </div>
+        }
+
+    }
+    else
+    {
+        <div class="row justify-content-center mt-2">
+            <div class="text-danger">Device Not Found</div>
+        </div>
+    }
+}
+else
+{
+    // This is a device list
+    <div class="text-center">
+        <h1 class="display-5">iSpindel Device List</h1>
+    </div>
+
+    @if (Model.Devices != null && Model.Devices.Count > 0)
+    {
+        <div class="row justify-content-center mt-2">
+            @foreach (var d in Model.Devices)
+            {
+                <partial name="DeviceSummary" model="d" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="row justify-content-center mt-2">
+            <div class="col-12 text-warning">No devices</div>
+        </div>
+    }
+
+}
+

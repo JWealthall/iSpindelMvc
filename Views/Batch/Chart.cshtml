@@ -1,0 +1,147 @@
+﻿@{ Layout = "~/Views/Shared/_LayoutFull.cshtml"; }
+@model SummaryDataModel
+
+@{
+    ViewData["Title"] = "Batch Chart";
+    var logData = Model.Batch.Logs.OrderBy(l => l.Date).Select(s => new { s.Date, s.Gravity, s.Temperature });
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/lib/chart/Chart.bundle.js")"></script>
+    <script src="@Url.Content("~/lib/chart/chartjs-plugin-trendline.js")"></script>
+    <script>
+        var dateSrc = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(logData.Select(s => s.Date)));
+        var dates = dateSrc.map(d => new Date(d));
+        var gravities = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(logData.Select(s => s.Gravity)));
+        var temperatures = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(logData.Select(s => s.Temperature)));
+        var ctx = document.getElementById('batchChart').getContext('2d');
+        var chartX = new Chart(ctx,
+            {
+                // The type of chart we want to create
+                type: 'line',
+
+                // The data for our dataset
+                data: {
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Gravity',
+                            yAxisID: 'y-axis-0',
+                            fill: false,
+                            backgroundColor: '#3366CC',
+                            borderColor: '#3366CC',
+                            data: gravities,
+                            borderWidth: 2,
+                            pointRadius: 0,
+                            trendlineLinear: {
+                                style: "#3e95cd",
+                                lineStyle: "line",
+                                width: 1
+                            }
+                        },
+                        {
+                            label: 'Temperature',
+                            yAxisID: 'y-axis-1',
+                            fill: false,
+                            backgroundColor: '#DC3912',
+                            borderColor: '#DC3912',
+                            borderWidth: 2,
+                            data: temperatures,
+                            pointRadius: 0,
+                            trendlineLinear: {
+                                style: "#EA8A73",
+                                lineStyle: "line",
+                                width: 1
+                            }
+                        }
+                    ]
+                },
+
+                // Configuration options go here
+                options: {
+                    scales: {
+                        xAxes: [
+                            {
+                                type: 'time',
+                                time: {
+                                    minUnit: "day"
+                                }
+                            }
+                        ],
+                        yAxes: [
+                            {
+                                id: 'y-axis-0',
+                                position: 'left'
+                            }, {
+                                id: 'y-axis-1',
+                                type: 'linear',
+                                position: 'right',
+                                ticks: {
+                                    min: 0
+                                },
+                                gridLines: {
+                                    display: false
+                                }
+                            }
+                        ]
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                return data.datasets[tooltipItem.datasetIndex].label +
+                                    ': ' +
+                                    data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            }
+                        }
+                    }
+                }
+            });
+    </script>
+}
+
+<link href="@Url.Content("~/lib/chart/Chart.css")" rel="stylesheet" type="text/css" />
+
+<div class="text-center">
+    <h1>@Model.BatchName Details</h1>
+</div>
+
+@if (Model.BatchId.HasValue)
+{
+    // This is a device details
+    @if (Model.Devices != null && Model.Devices.Count > 0)
+    {
+        Model.Devices[0].IsDetail = true;
+        <div class="container">
+            <div class="row">
+                <button class="btn btn-primary ml-auto col-6 col-sm-5 col-md-4 col-lg-3 col-xl-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Show Summary
+                </button>
+            </div>
+            <div class="row justify-content-center mt-2 collapse" id="collapseExample">
+                <partial name="DeviceSummary" model="Model.Devices[0]" />
+                @if (Model.Batches != null && Model.Batches.Count > 0)
+                {
+                    <partial name="BatchSummary" model="Model.Batches[0]" />
+                }
+                else
+                {
+                    <div class="row justify-content-center mt-2">
+                        <div class="text-warning">No batches</div>
+                    </div>
+                }
+            </div>
+        </div>
+        @if (Model.Batch != null && Model.Batch.Logs != null && Model.Batch.Logs.Count > 0)
+        {
+            <canvas id="batchChart"></canvas>
+        }
+    }
+    else
+    {
+        <div class="row justify-content-center mt-2">
+            <div class="text-danger">Device Not Found</div>
+        </div>
+    }
+}

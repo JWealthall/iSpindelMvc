@@ -1,0 +1,48 @@
+﻿@model SummaryDataModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-5">iSpindel Server</h1>
+    <p>A simple .Net Core server for monitoring the hydrometer's information.</p>
+</div>
+
+<div class="row justify-content-center mt-2">
+    <h4 class="">Devices</h4>
+</div>
+@if (Model.Devices != null && Model.Devices.Count > 0)
+{
+    <div class="row justify-content-center">
+        @foreach (var d in Model.Devices)
+        {
+            <partial name="DeviceSummary" model="d" />
+        }
+    </div>
+}
+else
+{
+    <div class="row justify-content-center mt-2">
+        <div class="col text-warning">No devices</div>
+    </div>
+}
+
+<div class="row justify-content-center mt-2">
+    <h4 class="">Batches</h4>
+</div>
+@if (Model.Batches != null && Model.Batches.Count > 0)
+{
+    <div class="row justify-content-center">
+        @foreach (var b in Model.Batches)
+        {
+            <partial name="BatchSummary" model="b" />
+        }
+    </div>
+}
+else
+{
+    <div class="row justify-content-center mt-2">
+        <div class="col text-warning">No batches</div>
+    </div>
+}

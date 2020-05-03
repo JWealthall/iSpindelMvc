@@ -1,0 +1,54 @@
+﻿@model iSpindelMvc.Models.Batch
+
+@{
+    ViewData["Title"] = "Edit";
+    var p = new Dictionary<string, string> { { "batchId", Model.BatchId.ToString() } };
+}
+<h2>Edit Batch</h2>
+<hr />
+<form asp-action="Edit">
+    <div class="form-row" onsubmit="SubmitFormCheck(event)">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="DeviceId" class="col-form-label"></label>
+            <input asp-for="DeviceId" class="form-control" readonly="readonly" />
+            <span asp-validation-for="DeviceId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="BatchId" class="col-form-label"></label>
+            <input asp-for="BatchId" class="form-control" readonly="readonly" />
+            <span asp-validation-for="BatchId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="StartDate" class="col-form-label"></label>
+            <input asp-for="StartDate" class="form-control" readonly="readonly" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="w-100"></div>
+        <div class="form-group col-md-12 col-lg-8 col-xl-6">
+            <label asp-for="Description" class="col-form-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        @if (Model.EndDate.HasValue)
+        {
+            <div class="form-group col-md-6 col-lg-4">
+                <label asp-for="EndDate" class="col-form-label"></label>
+                <input asp-for="EndDate" class="form-control" readonly="readonly" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        }
+        <div class="w-100"></div>
+        <div class="form-group col">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @if (!Model.EndDate.HasValue)
+            {
+                <a class="btn btn-primary" asp-controller="Batch" asp-action="End" asp-all-route-data="p">End Batch</a>
+            }
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" asp-all-route-data="p">Back to details</a>
+</div>

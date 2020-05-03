@@ -1,0 +1,43 @@
+﻿@model iSpindelMvc.Models.Batch
+
+@{
+    ViewData["Title"] = "Edit";
+    var p = new Dictionary<string, string> { { "batchId", Model.BatchId.ToString() } };
+}
+<h2>End Batch</h2>
+<h3 class="text-danger">Are you sure you want to end this?  No other logs can be added</h3>
+<hr />
+<form asp-action="End">
+    <div class="form-row" onsubmit="SubmitFormCheck(event)">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="DeviceId" class="col-form-label"></label>
+            <input asp-for="DeviceId" class="form-control" readonly="readonly" />
+            <span asp-validation-for="DeviceId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="BatchId" class="col-form-label"></label>
+            <input asp-for="BatchId" class="form-control" readonly="readonly" />
+            <span asp-validation-for="BatchId" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6 col-lg-4">
+            <label asp-for="StartDate" class="col-form-label"></label>
+            <input asp-for="StartDate" class="form-control" readonly="readonly" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="w-100"></div>
+        <div class="form-group col-md-12 col-lg-8 col-xl-6">
+            <label asp-for="Description" class="col-form-label"></label>
+            <input asp-for="Description" class="form-control" readonly="readonly" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="w-100"></div>
+        <div class="form-group col">
+            <input type="submit" value="End Batch" class="btn btn-danger" />
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" asp-all-route-data="p">Back to details</a>
+</div>

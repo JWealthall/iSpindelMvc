@@ -1,0 +1,63 @@
+﻿@model BatchSummary
+
+@{
+    var p = new Dictionary<string, string> { { "batchId", Model.BatchId.ToString() } };
+    //&deg;
+}
+
+<div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-1 d-flex">
+    <div class="card flex-fill">
+        <div class="card-header">
+            <h5>@Model.Description</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-4">@Html.DisplayNameFor(model => model.StartDate)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.StartDate)</dd>
+                <dt class="col-4">@Html.DisplayNameFor(model => model.EndDate)</dt>
+                <dd class="col-8">@Html.DisplayFor(model => model.EndDate)</dd>
+            </dl>
+            @if (Model.StartGravity.HasValue)
+            {
+                <dl class="row">
+                    <dt class="col-4">@Html.DisplayNameFor(model => model.Duration)</dt>
+                    <dd class="col-8">@Html.DisplayFor(model => model.Duration)</dd>
+                </dl>
+            }
+            @if (Model.StartGravity.HasValue)
+            {
+                <dl class="row">
+                    <dt class="col-4 card-body-header"></dt>
+                    <dt class="col-4 card-body-header text-right">Gravity</dt>
+                    <dt class="col-4 card-body-header text-right">Temp</dt>
+                    <dt class="col-4">Latest</dt>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.EndGravity)</dd>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.EndTemperature)&deg;@Html.DisplayFor(model => model.TempUnits)</dd>
+                    <dt class="col-4">First</dt>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.StartGravity)</dd>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.StartTemperature)&deg;@Html.DisplayFor(model => model.TempUnits)</dd>
+                    <dt class="col-4">Abv &amp; Avg</dt>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.Abv)</dd>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.AvgTemperature)&deg;@Html.DisplayFor(model => model.TempUnits)</dd>
+                    <dt class="col-4">Low</dt>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.MinGravity)</dd>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.MinTemperature)&deg;@Html.DisplayFor(model => model.TempUnits)</dd>
+                    <dt class="col-4">High</dt>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.MaxGravity)</dd>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.MaxTemperature)&deg;@Html.DisplayFor(model => model.TempUnits)</dd>
+                    <dt class="col-4">@Html.DisplayNameFor(model => model.AbvMaxMin)</dt>
+                    <dd class="col-4 text-right">@Html.DisplayFor(model => model.AbvMaxMin)</dd>
+                    <dd class="col-4"></dd>
+                </dl>
+            }
+        </div>
+        <div class="card-footer text-right">
+            <a class="btn btn-primary" asp-controller="Batch" asp-action="Edit" asp-all-route-data="p">Edit</a>
+            @if (Model.StartGravity.HasValue)
+            {
+                <a class="btn btn-primary" asp-controller="Batch" asp-action="Chart" asp-all-route-data="p">Chart</a>
+            }
+            <a class="btn btn-primary" asp-controller="Batch" asp-all-route-data="p">Details</a>
+        </div>
+    </div>
+</div>
