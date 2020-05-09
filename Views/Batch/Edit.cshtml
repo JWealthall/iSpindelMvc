@@ -1,6 +1,8 @@
-﻿@model iSpindelMvc.Models.Batch
+﻿@using iSpindelMvc.Data
+@model iSpindelMvc.Models.Batch
 
 @{
+    var disabled = LogDb.ReadOnly ? "disabled" : "";
     ViewData["Title"] = "Edit";
     var p = new Dictionary<string, string> { { "batchId", Model.BatchId.ToString() } };
 }
@@ -40,11 +42,11 @@
         }
         <div class="w-100"></div>
         <div class="form-group col">
-            <input type="submit" value="Save" class="btn btn-primary" />
-            @if (!Model.EndDate.HasValue)
-            {
-                <a class="btn btn-primary" asp-controller="Batch" asp-action="End" asp-all-route-data="p">End Batch</a>
-            }
+                <input type="submit" value="Save" class="btn btn-primary" @Html.Raw(disabled) />
+                @if (!Model.EndDate.HasValue)
+                {
+                    <a class="btn btn-primary @Html.Raw(disabled)" asp-controller="Batch" asp-action="End" asp-all-route-data="p">End Batch</a>
+                }
         </div>
     </div>
 </form>

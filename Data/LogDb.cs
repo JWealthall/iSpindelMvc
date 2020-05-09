@@ -12,6 +12,8 @@ namespace iSpindelMvc.Data
     // A single place to put database handling as some functions shared between controllers
     public class LogDb
     {
+        public static bool ReadOnly { get; set; } = false;
+
         private readonly LogDbContext _context;
         public LogDbContext Context => _context;
 
@@ -23,6 +25,7 @@ namespace iSpindelMvc.Data
 
         public async Task<bool> BatchAdd(Batch batch)
         {
+            if (ReadOnly) return false;
             try
             {
                 // Check for an existing batch without an end date for the same device - set the end date
@@ -49,6 +52,7 @@ namespace iSpindelMvc.Data
 
         public async Task<Batch> BatchDelete(Guid batchId)
         {
+            if (ReadOnly) return null;
             var batch = await _context.Batches.FindAsync(batchId);
             if (batch == null) return null;
             _context.Batches.Remove(batch);
@@ -58,6 +62,7 @@ namespace iSpindelMvc.Data
 
         public async Task<bool> BatchEnd(Batch batch)
         {
+            if (ReadOnly) return false;
             try
             {
                 batch.EndDate = DateTime.Now.TrimToSecond();
@@ -159,6 +164,7 @@ namespace iSpindelMvc.Data
 
         public async Task<bool> BatchSave(Batch batch)
         {
+            if (ReadOnly) return false;
             try
             {
                 _context.Update(batch);
@@ -181,6 +187,7 @@ namespace iSpindelMvc.Data
 
         public async Task<Device> DeviceDelete(Guid batchId)
         {
+            if (ReadOnly) return null;
             var device = await _context.Devices.FindAsync(batchId);
             if (device == null) return null;
             _context.Devices.Remove(device);
@@ -231,6 +238,7 @@ namespace iSpindelMvc.Data
 
         public async Task<bool> DeviceSave(Device device)
         {
+            if (ReadOnly) return false;
             try
             {
                 _context.Update(device);
@@ -248,6 +256,7 @@ namespace iSpindelMvc.Data
 
         public async Task<bool> Log(SpindelLog data)
         {
+            if (ReadOnly) return false;
             try
             {
                 var device = await _context.Devices.SingleOrDefaultAsync(d => d.Name == data.name);
@@ -293,6 +302,7 @@ namespace iSpindelMvc.Data
 
         public async Task<Log> LogDelete(Guid logId)
         {
+            if (ReadOnly) return null;
             var log = await _context.Logs.FindAsync(logId);
             if (log == null) return null;
             _context.Logs.Remove(log);

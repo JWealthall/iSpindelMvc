@@ -28,7 +28,13 @@ namespace iSpindelMvc
             services.AddControllersWithViews();
 
             var serverType = 0;
-            if (Configuration != null) if (!int.TryParse(Configuration["ServerType"], out serverType)) serverType = 0;
+            var readOnly = false;
+            if (Configuration != null)
+            {
+                if (!int.TryParse(Configuration["ServerType"], out serverType)) serverType = 0;
+                if (!bool.TryParse(Configuration["ReadOnly"], out readOnly)) readOnly = false;
+            }
+            LogDb.ReadOnly = readOnly;
             if (serverType == 1)
                 services.AddDbContext<LogDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("iSpindelSqlite")));
             else

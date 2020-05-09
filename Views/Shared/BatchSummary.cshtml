@@ -1,6 +1,8 @@
-﻿@model BatchSummary
+﻿@using iSpindelMvc.Data
+@model BatchSummary
 
 @{
+    var disabled = LogDb.ReadOnly ? "disabled" : "";
     var p = new Dictionary<string, string> { { "batchId", Model.BatchId.ToString() } };
     //&deg;
 }
@@ -52,7 +54,7 @@
             }
         </div>
         <div class="card-footer text-right">
-            <a class="btn btn-primary" asp-controller="Batch" asp-action="Edit" asp-all-route-data="p">Edit</a>
+            <a class="btn btn-primary @Html.Raw(disabled)" asp-controller="Batch" asp-action="Edit" asp-all-route-data="p">Edit</a>
             @if (Model.StartGravity.HasValue)
             {
                 <a class="btn btn-primary" asp-controller="Batch" asp-action="Chart" asp-all-route-data="p">Chart</a>

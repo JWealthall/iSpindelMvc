@@ -29,6 +29,11 @@ namespace iSpindelMvc
 
     public static class Extensions
     {
+        public static string ToJava(this bool b)
+        {
+            return b ? "true" : "false";
+        }
+
         public static string ToSql<TEntity>(this IQueryable<TEntity> query) where TEntity : class
         {
             var enumerator = query.Provider.Execute<IEnumerable<TEntity>>(query.Expression).GetEnumerator();

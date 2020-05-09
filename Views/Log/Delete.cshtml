@@ -1,6 +1,8 @@
-﻿@model iSpindelMvc.Models.Log
+﻿@using iSpindelMvc.Data
+@model iSpindelMvc.Models.Log
 
 @{
+    var disabled = LogDb.ReadOnly ? "disabled" : "";
     ViewData["Title"] = "Delete";
     var p = new Dictionary<string, string> { { "batchId", Model.BatchId.ToString() } };
 }
@@ -68,7 +70,7 @@
         </div>
         <div class="w-100"></div>
         <div class="form-group">
-            <input type="submit" value="Delete Log" class="btn btn-danger" />
+            <input type="submit" value="Delete Log" class="btn btn-danger" @Html.Raw(disabled) />
         </div>
     </div>
 </form>

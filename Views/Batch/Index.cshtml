@@ -1,6 +1,8 @@
-﻿@model SummaryDataModel
+﻿@using iSpindelMvc.Data
+@model SummaryDataModel
 
 @{
+    var readOnly = LogDb.ReadOnly;
     ViewData["Title"] = Model.BatchId.HasValue ? "Batch Summary" : "Batches";
 }
 
@@ -50,35 +52,41 @@
                         <th class="text-right">
                             @Html.DisplayNameFor(model => model.Batch.Logs[0].RSSI)
                         </th>
-                        <th></th>
+                        @if (!readOnly)
+                        {
+                            <th></th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Batch.Logs.OrderByDescending(x => x.Date))
                     {
-                    <tr>
-                        <td class="text-center">
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td class="text-right">
-                            @Html.DisplayFor(modelItem => item.Gravity)
-                        </td>
-                        <td class="text-right">
-                            @Html.DisplayFor(modelItem => item.Temperature)&deg;@Html.DisplayFor(modelItem => item.TempUnits)
-                        </td>
-                        <td class="text-right">
-                            @Html.DisplayFor(modelItem => item.Angle)&deg;
-                        </td>
-                        <td class="text-right">
-                            @Html.DisplayFor(modelItem => item.Battery)
-                        </td>
-                        <td class="text-right">
-                            @Html.DisplayFor(modelItem => item.RSSI)
-                        </td>
-                        <td class="text-center">
-                            <a asp-contoller="Log" asp-action="Delete" asp-controller="Log" asp-route-id="@item.LogId">Delete</a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="text-center">
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td class="text-right">
+                                @Html.DisplayFor(modelItem => item.Gravity)
+                            </td>
+                            <td class="text-right">
+                                @Html.DisplayFor(modelItem => item.Temperature)&deg;@Html.DisplayFor(modelItem => item.TempUnits)
+                            </td>
+                            <td class="text-right">
+                                @Html.DisplayFor(modelItem => item.Angle)&deg;
+                            </td>
+                            <td class="text-right">
+                                @Html.DisplayFor(modelItem => item.Battery)
+                            </td>
+                            <td class="text-right">
+                                @Html.DisplayFor(modelItem => item.RSSI)
+                            </td>
+                            @if (!readOnly)
+                            {
+                                <td class="text-center">
+                                    <a asp-contoller="Log" asp-action="Delete" asp-controller="Log" asp-route-id="@item.LogId">Delete</a>
+                                </td>
+                            }
+                        </tr>
                     }
                 </tbody>
             </table>

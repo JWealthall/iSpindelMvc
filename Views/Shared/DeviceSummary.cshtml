@@ -1,8 +1,10 @@
-﻿@model DeviceSummary
+﻿@using iSpindelMvc.Data
+@model DeviceSummary
 
 @{
+    var disabled = LogDb.ReadOnly ? "disabled": "";
     var p = new Dictionary<string, string> { { "deviceId", Model.DeviceId.ToString() } };
-    var dlClass = Model.Date.HasValue && Model.Date.Value < DateTime.Now.AddHours(-2)? "text-secondary" : "" ;
+    var dlClass = Model.Date.HasValue && Model.Date.Value < DateTime.Now.AddHours(-2) ? "text-secondary" : "";
 }
 
 <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-1 d-flex">
@@ -38,8 +40,8 @@
         <div class="card-footer text-right">
             @if (Model.IsDetail)
             {
-                <a class="btn btn-primary" asp-controller="Device" asp-action="Edit" asp-all-route-data="p">Edit Device</a>
-                <a class="btn btn-primary" asp-controller="Batch" asp-action="New" asp-all-route-data="p">New Batch</a>
+                <a class="btn btn-primary @Html.Raw(disabled)" asp-controller="Device" asp-action="Edit" asp-all-route-data="p">Edit Device</a>
+                <a class="btn btn-primary @Html.Raw(disabled)" asp-controller="Batch" asp-action="New" asp-all-route-data="p">New Batch</a>
             }
             else
             {
